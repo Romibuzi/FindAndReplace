@@ -27,8 +27,6 @@ import java.io.File;
  */
 public class Main extends Application
 {
-    // OS Desktop
-    public static Desktop desktop = Desktop.getDesktop();
     // The grid
     public static GridPane grid = new GridPane();
     // Label used to display the path of the File selected by the user
