@@ -18,7 +18,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.File;
 
 /**
@@ -167,11 +166,11 @@ public class Main extends Application
 
         // Set extension filters
         // for the file selector
-        FileChooser.ExtensionFilter sqlFilter = new FileChooser.ExtensionFilter("SQL file (*.sql)", "*.sql");
-        FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("TXT file (*.txt)", "*.txt");
-        FileChooser.ExtensionFilter rtfFilter = new FileChooser.ExtensionFilter("RTF file (*.rtf)", "*.rtf");
+        FileChooser.ExtensionFilter sqlFilter  = new FileChooser.ExtensionFilter("SQL file (*.sql)", "*.sql");
+        FileChooser.ExtensionFilter txtFilter  = new FileChooser.ExtensionFilter("TXT file (*.txt)", "*.txt");
+        FileChooser.ExtensionFilter rtfFilter  = new FileChooser.ExtensionFilter("RTF file (*.rtf)", "*.rtf");
         FileChooser.ExtensionFilter jsonFilter = new FileChooser.ExtensionFilter("JSON file (*.json)", "*.json");
-        FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("XML file (*.xml)", "*.xml");
+        FileChooser.ExtensionFilter xmlFilter  = new FileChooser.ExtensionFilter("XML file (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(sqlFilter);
         fileChooser.getExtensionFilters().add(txtFilter);
         fileChooser.getExtensionFilters().add(rtfFilter);

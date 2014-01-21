@@ -84,19 +84,19 @@ public class Controller
         // Create the new File in the same directory of the selected File
         // with the same name but prefixed by "NEW_"
         String chosenFileParent = chosenFile.getParent();
-        String chosenFileName = chosenFile.getName();
-        String createdFileName = chosenFileParent
-                                .concat("\\")
-                                .concat("NEW_")
-                                .concat(chosenFileName);
+        String chosenFileName   = chosenFile.getName();
+        String createdFileName  = chosenFileParent
+                                  .concat("\\")
+                                  .concat("NEW_")
+                                  .concat(chosenFileName);
         createdFile = new File(createdFileName);
         //System.out.println(createdFileName);
 
         try {
             // initializion of the file reader and the file writer
-            FileReader fr = new FileReader(chosenFile.getAbsolutePath());
-            BufferedReader in = new BufferedReader(fr);
-            FileWriter fw = new FileWriter(createdFile);
+            FileReader fr      = new FileReader(chosenFile.getAbsolutePath());
+            BufferedReader in  = new BufferedReader(fr);
+            FileWriter fw      = new FileWriter(createdFile);
             BufferedWriter out = new BufferedWriter(fw);
             String currentLine;
             String newLine;
