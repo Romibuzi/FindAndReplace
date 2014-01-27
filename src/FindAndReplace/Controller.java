@@ -38,7 +38,8 @@ public class Controller
         try {
             file.getCanonicalPath();
             return true;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             return false;
         }
     }
@@ -51,8 +52,8 @@ public class Controller
     public static void searchInFile(String textToFind) {
         try {
             // initializion of the file reader
-            FileReader fr = new FileReader(chosenFile.getAbsolutePath());
-            BufferedReader in = new BufferedReader(fr);
+            FileReader fr       = new FileReader(chosenFile.getAbsolutePath());
+            BufferedReader in   = new BufferedReader(fr);
             String currentLine;
             Integer occurences = 0;
             while ((currentLine = in.readLine()) != null) {
@@ -86,7 +87,7 @@ public class Controller
         String chosenFileParent = chosenFile.getParent();
         String chosenFileName   = chosenFile.getName();
         String createdFileName  = chosenFileParent
-                                  .concat("\\")
+                                  .concat(File.separator)
                                   .concat("NEW_")
                                   .concat(chosenFileName);
         createdFile = new File(createdFileName);
