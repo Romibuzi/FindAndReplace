@@ -7,6 +7,7 @@ import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -19,6 +20,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Main Class
@@ -53,7 +56,7 @@ public class Main extends Application
         grid.setHgap(15);
         grid.setVgap(15);
         grid.setPadding(new Insets(20, 20, 20, 20));
-        Scene scene = new Scene(grid, 400, 350);
+        Scene scene = new Scene(grid, 550, 350);
         stage.setScene(scene);
 
         // Text, Labels, Text Fields and Buttons initialization
@@ -81,18 +84,36 @@ public class Main extends Application
         grid.add(findText, 0, 2);
 
         final TextField oldTextField = new TextField();
+        oldTextField.setPrefWidth(300);
         grid.add(oldTextField, 1, 2);
 
         final Label replaceText = new Label("Text to replace :");
         grid.add(replaceText, 0, 3);
 
         final TextField newTextField = new TextField();
+        newTextField.setPrefWidth(300);
         grid.add(newTextField, 1, 3);
 
         // Find Button
         final Button findButton = new Button();
         findButton.setText("Find !");
         findButton.setTranslateZ(10);
+
+        // Replace Button
+        final Button replaceButton = new Button();
+        replaceButton.setText("Replace !");
+
+        // place Find and Replace Button into an HBox
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(15, 15, 15, 15));
+        hbox.setSpacing(10);
+        hbox.getChildren().addAll(findButton, replaceButton);
+        grid.add(hbox, 1, 4);
+
+        final CheckBox replaceInSameFile = new CheckBox("Replace in the same file");
+        grid.add(replaceInSameFile, 1, 5);
+
+        // Set Actions on the two buttons
         findButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent findEvent) {
@@ -115,9 +136,6 @@ public class Main extends Application
             }
         });
 
-        // Replace Button
-        final Button replaceButton = new Button();
-        replaceButton.setText("Replace !");
         replaceButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent findEvent) {
@@ -125,7 +143,7 @@ public class Main extends Application
                 String newText = newTextField.getText();
                 if (!oldText.isEmpty() && !newText.isEmpty() && Controller.chosenFile != null) {
                     long startTime = System.currentTimeMillis();
-                    Controller.replaceInFile(oldText, newText);
+                    Controller.replaceInFile(oldText, newText, replaceInSameFile.isSelected());
                     long endTime = System.currentTimeMillis();
                     long duration = endTime - startTime;
                     System.out.println("Execution time : " + duration + " ms !");
@@ -145,15 +163,8 @@ public class Main extends Application
             }
         });
 
-        // place Find and Replace Button into an HBox
-        HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 15, 15, 15));
-        hbox.setSpacing(10);
-        hbox.getChildren().addAll(findButton, replaceButton);
-        grid.add(hbox, 1, 4);
-
-        grid.add(infoText, 1, 5);
-        grid.add(createdFileInfo, 1, 6);
+        grid.add(infoText, 1, 6);
+        grid.add(createdFileInfo, 1, 7);
 
         stage.show();
     }
@@ -166,21 +177,36 @@ public class Main extends Application
 
         // Set extension filters
         // for the file selector
-        FileChooser.ExtensionFilter sqlFilter  = new FileChooser.ExtensionFilter("SQL file (*.sql)", "*.sql");
-        FileChooser.ExtensionFilter txtFilter  = new FileChooser.ExtensionFilter("TXT file (*.txt)", "*.txt");
-        FileChooser.ExtensionFilter rtfFilter  = new FileChooser.ExtensionFilter("RTF file (*.rtf)", "*.rtf");
-        FileChooser.ExtensionFilter jsonFilter = new FileChooser.ExtensionFilter("JSON file (*.json)", "*.json");
-        FileChooser.ExtensionFilter xmlFilter  = new FileChooser.ExtensionFilter("XML file (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(sqlFilter);
-        fileChooser.getExtensionFilters().add(txtFilter);
-        fileChooser.getExtensionFilters().add(rtfFilter);
-        fileChooser.getExtensionFilters().add(jsonFilter);
-        fileChooser.getExtensionFilters().add(xmlFilter);
+        Map<String, String> filters = getFilters();
+
+        for (Map.Entry<String, String> entry : filters.entrySet()) {
+            String key   = entry.getKey();
+            String value = entry.getValue();
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(key, value);
+            fileChooser.getExtensionFilters().add(filter);
+        }
 
         // set the home user directory
         // as the initial directory for the file selector
         fileChooser.setInitialDirectory(
             new File(System.getProperty("user.home"))
         );
+    }
+
+    /**
+     * @return Map
+     */
+    private static Map<String, String> getFilters() {
+        Map<String,String> filters = new HashMap<String,String>();
+
+        filters.put("SQL file (*.sql)", "*.sql");
+        filters.put("TXT file (*.txt)", "*.txt");
+        filters.put("RTF file (*.rtf)", "*.rtf");
+        filters.put("XML file (*.xml)", "*.xml");
+        filters.put("DOC file (*.doc)", "*.doc");
+        filters.put("JSON file (*.json)", "*.json");
+        filters.put("Markdown file (*.md)", "*.md");
+
+        return filters;
     }
 }

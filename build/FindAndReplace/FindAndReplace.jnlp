@@ -2,7 +2,7 @@
 <jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="FindAndReplace.jnlp">
   <information>
     <title>FindAndReplace</title>
-    <vendor>Romibuzi</vendor>
+    <vendor>Unknown vendor</vendor>
     <description>Sample JavaFX 2.0 application.</description>
     <offline-allowed/>
   </information>
@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="FindAndReplace.jar" size="25316" download="eager" />
+    <jar href="FindAndReplace.jar" size="26246" download="eager" />
   </resources>
   <applet-desc  width="600" height="400" main-class="com.javafx.main.NoJavaFXFallback"  name="FindAndReplace" >
     <param name="requiredFXVersion" value="2.2+"/>

@@ -10,7 +10,6 @@ import java.io.*;
 public class Controller
 {
     public static File chosenFile;
-    public static File createdFile;
 
     /**
      * Display the path
@@ -38,8 +37,8 @@ public class Controller
         try {
             file.getCanonicalPath();
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -69,8 +68,7 @@ public class Controller
                 Main.infoText.setFill(Color.GREEN);
                 Main.infoText.setText(occurences + " occurences found in the file !");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.print(e.getMessage());
         }
     }
@@ -81,23 +79,22 @@ public class Controller
      * @param oldText : the replaced text in the file
      * @param newText : the text to replace in the file
      */
-    public static void replaceInFile(String oldText, String newText) {
+    public static void replaceInFile(String oldText, String newText, boolean inSameFile) {
         // Create the new File in the same directory of the selected File
         // with the same name but prefixed by "NEW_"
         String chosenFileParent = chosenFile.getParent();
         String chosenFileName   = chosenFile.getName();
-        String createdFileName  = chosenFileParent
+        String newFileName      = chosenFileParent
                                   .concat(File.separator)
                                   .concat("NEW_")
                                   .concat(chosenFileName);
-        createdFile = new File(createdFileName);
-        //System.out.println(createdFileName);
+        File newFile = new File(newFileName);
 
         try {
             // initializion of the file reader and the file writer
             FileReader fr      = new FileReader(chosenFile.getAbsolutePath());
             BufferedReader in  = new BufferedReader(fr);
-            FileWriter fw      = new FileWriter(createdFile);
+            FileWriter fw      = new FileWriter(newFile);
             BufferedWriter out = new BufferedWriter(fw);
             String currentLine;
             String newLine;
@@ -113,22 +110,50 @@ public class Controller
                 out.write(newLine);
                 out.newLine();
             }
+            // flush and close reader and writter
+            in.close();
             out.flush();
             out.close();
 
             if (replacements > 0) {
                 Main.infoText.setFill(Color.GREEN);
                 Main.infoText.setText(replacements + " replacements made in the file !");
-                Main.createdFileInfo.setText("Created file is located at : \n" + createdFileName);
+                if (inSameFile == true) {
+                    // Delete the old file and rename the created one
+                    if (renameFile(newFile)) {
+                        Main.createdFileInfo.setText("Created file is located at : \n" + chosenFile.getAbsolutePath());
+                    }
+                } else {
+                    Main.createdFileInfo.setText("Created file is located at : \n" + newFile.getAbsolutePath());
+                }
             } else {
-                // delete the created file because there was no replacements
-                createdFile.delete();
+                // delete the created file because there weren't replacements
+                newFile.delete();
                 Main.infoText.setFill(Color.RED);
                 Main.infoText.setText("No replacements made !");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.print(e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param newFile
+     * @return boolean
+     */
+    public static boolean renameFile(File newFile) {
+        if (chosenFile.delete()) {
+            if (newFile.renameTo(chosenFile)) {
+                System.out.println("Rename succesful");
+                return true;
+            } else {
+                System.out.println("Rename unsuccessfull");
+                return false;
+            }
+        } else {
+            System.out.println("Delete operation is failed.");
+            return false;
         }
     }
 }

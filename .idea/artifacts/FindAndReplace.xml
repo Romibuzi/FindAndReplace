@@ -1,9 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="javafx" build-on-make="true" name="FindAndReplace">
-    <output-path>$PROJECT_DIR$/build/FindAndReplace</output-path>
-    <properties id="ant-preprocessing">
-      <options enabled="true" />
-    </properties>
+    <output-path>$PROJECT_DIR$/out/artifacts/FindAndReplace</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="FindAndReplace.Main" />
@@ -11,7 +8,7 @@
         <option name="htmlParamFile" value="" />
         <option name="paramFile" value="" />
         <option name="title" value="FindAndReplace" />
-        <option name="vendor" value="Romibuzi" />
+        <option name="vendor" value="" />
       </options>
     </properties>
     <root id="root">
