@@ -39,16 +39,19 @@ public class Main extends Application
     public static Text infoText = new Text("");
 
     // Launch it, bitch !
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 
     /**
      * Method used to initialize the scene and differents interface elements
+     *
      * @param stage the window of the application
      */
     @Override
-    public void start(final Stage stage) {
+    public void start(final Stage stage)
+    {
         stage.setTitle("Find And Replace");
 
         // Scene Initialisation
@@ -172,7 +175,8 @@ public class Main extends Application
     /**
      * @param fileChooser the file selector
      */
-    private static void configureFileChooser(final FileChooser fileChooser) {
+    private static void configureFileChooser(final FileChooser fileChooser)
+    {
         fileChooser.setTitle("Select A file");
 
         // Set extension filters
@@ -196,7 +200,8 @@ public class Main extends Application
     /**
      * @return Map
      */
-    private static Map<String, String> getFilters() {
+    private static Map<String, String> getFilters()
+    {
         Map<String,String> filters = new HashMap<String,String>();
 
         filters.put("SQL file (*.sql)", "*.sql");

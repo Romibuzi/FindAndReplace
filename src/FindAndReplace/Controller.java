@@ -3,6 +3,7 @@ package FindAndReplace;
 import javafx.scene.paint.Color;
 import java.io.*;
 
+
 /**
  * Controller Class
  * Used to contain Programm Logic
@@ -17,7 +18,8 @@ public class Controller
      *
      * @param file : file chosen by the user
      */
-    public static void openFile(File file) {
+    public static void openFile(File file)
+    {
         if (isValidFile(file)) {
             chosenFile = file;
             Main.chosenFilePath.setText(chosenFile.getAbsolutePath());
@@ -30,10 +32,13 @@ public class Controller
     /**
      * Check if the file
      * chosen by the user is valid
+     *
      * @param file : the file chosen by the user
+     *
      * @return bool
      */
-    public static boolean isValidFile(File file) {
+    private static boolean isValidFile(File file)
+    {
         try {
             file.getCanonicalPath();
             return true;
@@ -44,11 +49,31 @@ public class Controller
     }
 
     /**
+     * Method used to create the new File
+     * in the same directory of the selected File
+     * with the same name but prefixed by "NEW_"
+     *
+     * @return File : the new file
+     */
+    private static File createNewFile()
+    {
+        String chosenFileParent = chosenFile.getParent();
+        String chosenFileName   = chosenFile.getName();
+        String newFileName      = chosenFileParent
+                .concat(File.separator)
+                .concat("NEW_")
+                .concat(chosenFileName);
+
+        return new File(newFileName);
+    }
+
+    /**
      * Method used to Find a specific text in the File
      *
      * @param textToFind : the text to find in the file
      */
-    public static void searchInFile(String textToFind) {
+    public static void searchInFile(String textToFind)
+    {
         try {
             // initializion of the file reader
             FileReader fr       = new FileReader(chosenFile.getAbsolutePath());
@@ -58,7 +83,8 @@ public class Controller
             while ((currentLine = in.readLine()) != null) {
                 // increments the number of occurence each time a line contains the text
                 if (currentLine.contains(textToFind)) {
-                    ++occurences;
+                    int count   = countSubstring(textToFind, currentLine);
+                    occurences += count;
                 }
             }
             if (occurences == 0) {
@@ -79,16 +105,9 @@ public class Controller
      * @param oldText : the replaced text in the file
      * @param newText : the text to replace in the file
      */
-    public static void replaceInFile(String oldText, String newText, boolean inSameFile) {
-        // Create the new File in the same directory of the selected File
-        // with the same name but prefixed by "NEW_"
-        String chosenFileParent = chosenFile.getParent();
-        String chosenFileName   = chosenFile.getName();
-        String newFileName      = chosenFileParent
-                                  .concat(File.separator)
-                                  .concat("NEW_")
-                                  .concat(chosenFileName);
-        File newFile = new File(newFileName);
+    public static void replaceInFile(String oldText, String newText, boolean inSameFile)
+    {
+        File newFile = createNewFile();
 
         try {
             // initializion of the file reader and the file writer
@@ -102,8 +121,9 @@ public class Controller
 
             while ((currentLine = in.readLine()) != null) {
                 if (currentLine.contains(oldText)) {
-                    newLine = currentLine.replace(oldText, newText);
-                    ++replacements;
+                    int count     = countSubstring(oldText, currentLine);
+                    newLine       = currentLine.replace(oldText, newText);
+                    replacements += count;
                 } else {
                     newLine = currentLine;
                 }
@@ -138,11 +158,12 @@ public class Controller
     }
 
     /**
-     *
      * @param newFile
+     *
      * @return boolean
      */
-    public static boolean renameFile(File newFile) {
+    private static boolean renameFile(File newFile)
+    {
         if (chosenFile.delete()) {
             if (newFile.renameTo(chosenFile)) {
                 System.out.println("Rename succesful");
@@ -155,5 +176,17 @@ public class Controller
             System.out.println("Delete operation is failed.");
             return false;
         }
+    }
+
+    /**
+     *
+     * @param subStr
+     * @param str
+     *
+     * @return int
+     */
+    private static int countSubstring(String subStr, String str)
+    {
+        return (str.length() - str.replace(subStr, "").length()) / subStr.length();
     }
 }
