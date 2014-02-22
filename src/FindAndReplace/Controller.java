@@ -158,6 +158,8 @@ public class Controller
     }
 
     /**
+     * Method used to rename a file
+     *
      * @param newFile
      *
      * @return boolean
@@ -179,6 +181,9 @@ public class Controller
     }
 
     /**
+     * Method used to get the
+     * number of occurences of a substring
+     * inside another string
      *
      * @param subStr
      * @param str
