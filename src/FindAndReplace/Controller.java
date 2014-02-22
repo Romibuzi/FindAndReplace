@@ -60,9 +60,9 @@ public class Controller
         String chosenFileParent = chosenFile.getParent();
         String chosenFileName   = chosenFile.getName();
         String newFileName      = chosenFileParent
-                .concat(File.separator)
-                .concat("NEW_")
-                .concat(chosenFileName);
+                                  .concat(File.separator)
+                                  .concat("NEW_")
+                                  .concat(chosenFileName);
 
         return new File(newFileName);
     }
