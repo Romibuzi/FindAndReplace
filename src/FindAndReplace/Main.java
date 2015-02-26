@@ -211,6 +211,7 @@ public class Main extends Application
         filters.put("DOC file (*.doc)", "*.doc");
         filters.put("JSON file (*.json)", "*.json");
         filters.put("Markdown file (*.md)", "*.md");
+        filters.put("CSV file (*.csv)", "*.csv");
 
         return filters;
     }
